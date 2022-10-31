@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="kr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HKS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <py-env>
+    - pandas
+    </py-env> 
+  </head>
+
+    <body>
+        <nav class="navbar navbar-expand-md bg-light">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="{{ url_for('index') }}">HKS</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('citruswork') }}">작업일지</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('pesticide') }}">농약정보</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ url_for('cymbidiumdisease') }}">병과농약</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="">메모장</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="">파일업로드</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="https://www.weather.go.kr/w/weather/forecast/short-term.do" target="_blank">기상청</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="index.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      링크
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="https://b.daedongnonghyup.com/login.aspx?ReturnUrl=%2fdefault.aspx" target="_blank">대동농협</a></li>
+                      <li><a class="dropdown-item" href="https://flower.at.or.kr/yfmc/front/stat/aucPrice.do?&menuId=23" target="_blank">화훼공판장</a></li>
+                      <li><a class="dropdown-item" href="https://www.weather.go.kr/w/typhoon/report.do" target="_blank">기상청 태풍정보</a></li>
+                      <li><a class="dropdown-item" href="https://www.windy.com/ko/" target="_blank">윈디</a></li>
+                      <li><a class="dropdown-item" href="https://www.metoc.navy.mil/jtwc/jtwc.html" target="_blank">미국 태풍경보센터</a></li>
+                      <li><a class="dropdown-item" href="https://earth.nullschool.net/" target="_blank">어쓰</a></li>
+                      <li><a class="dropdown-item" href="https://www.weather.go.kr/plus/land/current/aws_table_popup.jsp" target="_blank">기상청 관측자료</a></li>
+                    </ul>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="index.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Dropdown
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Action</a></li>
+                      <li><a class="dropdown-item" href="#">Another action</a></li>
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+        </nav>
+        <style type="text/css">
+            table.dataframe th {
+              border: 1px  black solid !important;
+              background-color: darkblue !important;
+              color: white !important;
+              text-align:center !important;
+              padding: 2px;
+            }
+            table.dataframe td {
+              border: 1px  black solid !important;
+              color: black !important;
+              text-align:center !important;
+              padding: 2px;
+            }
+            </style>
+        <p class="ms-5 fs-2 text-primary">2022 감귤 작업일지</p>   
+        <div id="csv" class="container m-3 table-responsive" ></div>
+        <py-script>
+            import pandas as pd
+            from pyodide.http import open_url 
+            df = pd.read_csv(open_url("https://raw.githubusercontent.com/mumungan/item/master/citrusworks.csv"))
+            df_filtered = df[['날짜', '작업내용', '농약명']]
+            df_filtered.index=df_filtered.index+1
+
+            csv = Element('csv')  
+            csv.write(df_filtered)
+        </py-script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.min.js" integrity="sha384-IDwe1+LCz02ROU9k972gdyvl+AESN10+x7tBKgc9I5HFtuNz0wWnPclzo6p9vxnk" crossorigin="anonymous"></script>              
+    </body>
+</html>
+
+
